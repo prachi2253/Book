@@ -1,0 +1,64 @@
+
+.navbar {
+    display: flex;
+    gap: 2rem;
+    padding: 3rem;
+    margin: 1rem;
+    margin-left: 0;
+    padding-left: 1rem;
+    border-bottom: 2px solid #DFDFDF;
+}
+.nav-button {
+    flex: 1;
+    max-width: 14rem;
+   
+}
+.newhead>h1{
+    text-align: center;
+}
+.form{
+    display: grid;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 6rem;
+}
+.format{
+    
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    padding-bottom: 1.5rem;
+    
+}
+.label {
+    display: grid;
+    justify-items: start;
+}
+.entry{
+    padding: 0.5rem 0.5rem;
+    width: 100%;
+}
+.review-entry{
+    min-width: 100%;
+    min-height: 10rem;
+    max-width: 43rem;
+    /* padding: 0.5rem 0.5rem;
+    text-align: left; */
+    
+}
+#headingimage{
+    width: 100%;
+    height: 30rem;
+
+}
+.submit-cancel{
+    display: flex;
+    padding: 2rem;
+    text-align: center;
+    gap: 3rem;
+   
+}
+.add{
+    font-size: 2rem;
+}
+
+/* .nav-button:hover { transform: scale(1.04); } */

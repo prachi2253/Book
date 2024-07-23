@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<%- include('partials/header.ejs') -%>
+<div class="newhead">
+    <h1>New Collection Entry</h1>
+</div>
+
+<div class="form">
+    <div class="format">
+        <div class="label">
+            <label for="search">Search for a book:</label>
+        </div>
+       <div class="input">
+        <input type="text" id = booksearch class="entry"  placeholder = "Enter book name or author or ISBN" autocomplete="off">
+        <button>search</button>
+       </div>
+
+    </div>
+
+    <form autocomplete="off" action="/new/detail" method="post">
+        <div class="format">
+            <div class="label">
+                <label for="isbn">ISBN: </label>
+            </div>
+           <div class="input">
+            <input type="text" class="entry" name ="isbn"   required>
+            
+           </div>
+    
+        </div>
+
+        <div class="format">
+            <div class="label">
+                <label for="title">Title: </label>
+            </div>
+           <div class="input">
+            <input type="text" class="entry" name ="title"  required>
+            
+           </div>
+    
+        </div>
+
+        <div class="format">
+            <div class="label">
+                <label for="author">Author: </label>
+            </div>
+           <div class="input">
+            <input type="text" class="entry" name ="author" required>
+            
+           </div>
+    
+        </div>
+
+        <div class="format">
+            <div class="label">
+                <label for="review">Review: </label>
+            </div>
+           <div class="input">
+            <input type="text" class="review-entry" name ="review" required>
+            
+           </div>
+    
+        </div>
+        
+        <div class="format">
+            <div class="label">
+                <label for="rating">Rating: </label>
+            </div>
+           <div class="input">
+            <select name="rating" class="entry" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            
+           </div>
+    
+        </div>
+        
+        <div class="submit-cancel">
+            <button  class="add" type="submit" >Submit</button>
+            <button onclick="window.location.href='/'" class="add" type="cancel" >cancel</button>
+              
+        </div>
+    </form>
+   
+    
+</div>
+
+<%- include('partials/footer.ejs') -%>
