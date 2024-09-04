@@ -1,85 +1,89 @@
-<%- include('partials/header.ejs') -%>
 <div>
-  <form action="/" method="get">
+  <form action="/about" method="get">
       <label for="sorting-dropdown">Sort Books by:</label>
       <select name="sort" id="sorting-dropdown" onchange="this.form.submit()">
       <option value="title" <% if (sortOption === "title" || sortOption === undefined) { %>selected<% } %>>Title</option>
-      <option value="date" <% if (sortOption === "date") { %>selected<% } %>>Recency</option>
+      <option value="date" <% if (sortOption === "date") { %>selected<% } %>>Date read</option>
       <option value="rating" <% if (sortOption === "rating") { %>selected<% } %>>Rating</option>
       </select>
   </form>
 </div>
 
-<% if(data && data.length>0){ %>
-    <% for(let i =0 ; i<data.length;i++){ %>
-      <div class="book-details">
-        <div class="first-column">
-          <% if(data[i].imagepath!=NULL){ %>
-              <img src="data[i].imagepath.jpg" class="bookcover" alt="book cover page">
-           <% }else{ %>
-              <p>No cover available</p>
-            <% } %>  
-           
-            <div class="entrydate">
-              Date: <%=data[i].date.toLocaleDateString('en-GB', { timeZone: 'UTC' });%> 
-            </div>
 
-            <form action="/notes/<%=data[i].id %>" method="post">
-              <button class="notes" type="submit">View Notes</button>
-            </form>
-            <form action="/delete/<%=data[i].id %>" method="post">
-              <button class="notes" type="submit" onclick="return confirm('Are you sure you want to delete this book?')"> Delete </button>
-            </form>
-
-        </div>
-
-        <div class="second-column">
-          <h1><%= data[i].title %></h1>
-          <h2 class="author2">by <%=data[i].author%> </h2>
-          <h3>Description</h3>
-          <p> <%= data[i].description %> </p>
-          <h3>My Review</h3>
-
-          <div class="star-rating">
-            <% const rating = data[i].rating %>
-            <% (let j =0 ;j<rating;j++){ %>
-              <img src="assets/images/star-icon-filled.png" class="filled" alt="star icon filled with black color">
-            <% }if(rating<5){  %>  
-              <% (let j =0 ;j<5-rating;j++){ %>
-                <img src="assets/images/star-icon-empty.png" class="filled" alt="star icon empty">
-            <% }  %>  
-
-            <%} %>
-          </div>
-            <div class="review">
-              <div class="review-box">
-                <p><%= data[i].review %></p>
-              </div>
-
-              <div class="review-edit">
-                <form action="/review/<%= data[i].id %>" class="editreview" method="post">
-
-                  <input type="hidden" name="updatedreview" value="<%= data[i].id %>">
-                  <input id="input<%=data[i].id%>" type="text" name="updatedreview" value="<%= data[i].review %>" autocomplete="off"
-                  autofocus="true" hidden="true" />
-                  <button id="done<%=item.id%>" class="edit" type="submit" hidden>Done</button>
-
-                </form>
-
-                <button id="update<%=item.id%>" class="edit" onclick="handler('<%=data[i].id%>')">Update Review</button>
-              </div>
-              
-            </div>
-          
-
-        </div>
+<% if (data && data.length !== 0) { %> 
+  <% for (let i=0; i<data.length; i++) { %> 
+<div class="log-entry-container">
+  <div class="column1">
+      <div>
+          <% if (data[i].image_path !== null) { %> 
+              <img src="<%= data[i].image_path %>" class="book-preview-img" alt="book cover image">
+          <% } else { %>
+              <p>No book cover available</p>
+          <% } %>
       </div>
-    <% } %>
-<% }else{ %>   
-  <p>No book to display</p>
-<% } %>   
+      <div class="entry-text"> 
+          Date: <%=data[i].date_read.toLocaleDateString('en-GB', { timeZone: 'UTC' });%> 
+      </div>
+      <div>
+          <form action="/notes/<%= data[i].id %>" method="get">
+              <button class="form-button" type="submit">View Notes</button>
+          </form>
+      </div>
+      <div>
+          <form action="/books/<%= data[i].id %>/delete" method="post">
+              <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</button>
+          </form>
+      </div>
+  </div>
+  <div class="column2">
+      <div>
+      <% if (data && data.length !== 0) { %> 
+          <h2><%= data[i].title %></h2>
+          <p class="entry-text">by <%= data[i].author %></p>
+          <h3>Description</h3>
+          <p class="entry-text"><%- data[i].description %></p>
+          <h3>My review</h3>
+      </div>
+
+      
+      <div class="star-rating-container">
+          <% const rating = data[i].rating; %>
+          <% for (let i=0; i<rating; i++) { %>
+              <img src="assets/images/star-icon-filled.png" class="star-icon" alt="filled star icon">
+          <% } %>
+          <% if (rating < 5) { %>
+              <% const empties = 5 - data[i].rating; %>
+              <% for (let i=0; i<empties; i++) { %>
+                  <img src="assets/images/star-icon-empty.png" class="star-icon" alt="empty star icon">
+              <% } %>
+          <% } %>
+      </div>
+              
+      <div class="review-wrapper">
+          <div class="entry-text" id="review<%= data[i].id %>">
+              <%- data[i].review %>
+          </div>
+          <div>
+              <form action="/reviews/<%= data[i].id %>/update" method="post">
+                  <textarea id="input<%= data[i].id %>" class="review-input" name="reviewToUpdate"
+                      autocomplete="off" autofocus="true" hidden="true"><%= data[i].review %></textarea>
+                  <button id="done<%= data[i].id %>" class="form-button" type="submit" hidden>Done</button>
+              </form>
+              
+              <button id="update<%= data[i].id %>" class="form-button" type="button" onclick="handler('<%= data[i].id %>')">Update Review</button>
+          </div>
+      </div>
+
+      <% } else { %>
+          <p class="entry-text">Book data not available.</p>
+      <% } %>
+  </div>
+</div>
+  <% } %>
+<% } %>
 
 <script>
+  
   function handler(id) {
     document.getElementById("review" + id).setAttribute("hidden", true)
     document.getElementById("update" + id).setAttribute("hidden", true)
@@ -87,5 +91,3 @@
     document.getElementById("input" + id).removeAttribute("hidden")
   }
 </script>
-
-<%- include('partials/footer.ejs'); -%>

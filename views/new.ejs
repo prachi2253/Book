@@ -10,13 +10,13 @@
             <label for="search">Search for a book:</label>
         </div>
        <div class="input">
-        <input type="text" id = booksearch class="entry"  placeholder = "Enter book name or author or ISBN" autocomplete="off">
+        <input type="search" id = booksearch class="entry"  placeholder = "Enter book name or author or ISBN" autocomplete="off">
         <button>search</button>
        </div>
 
     </div>
 
-    <form autocomplete="off" action="/new/detail" method="post">
+    <form autocomplete="off" action="/new-entry/add" method="post">
         <div class="format">
             <div class="label">
                 <label for="isbn">ISBN: </label>
@@ -48,6 +48,14 @@
             
            </div>
     
+        </div>
+        <div class="form-row">
+            <div class="label">
+                <label for="description">Description: </label>
+            </div>
+            <div class="input">
+                <textarea type="text" name="description" class="form-field review-input" required></textarea>
+            </div>
         </div>
 
         <div class="format">
@@ -89,3 +97,4 @@
 </div>
 
 <%- include('partials/footer.ejs') -%>
+
