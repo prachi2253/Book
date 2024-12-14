@@ -51,7 +51,17 @@
                 <% } %>
             </div>
             <div class="entry-text"> 
-                Date: <%=data[i].date_read.toLocaleDateString('en-GB', { timeZone: 'UTC' });%> 
+                <% if (data[i].date_read) { 
+                    const dateRead = new Date(data[i].date_read); 
+                %>
+                    <div class="entry-text"> 
+                        Date: <%= dateRead.toLocaleDateString('en-GB', { timeZone: 'UTC' }) %> 
+                    </div>
+                <% } else { %>
+                    <div class="entry-text"> 
+                        Date: Not Available 
+                    </div>
+                <% } %>
             </div>
             <div>
                 <form action="/notes/<%= data[i].id %>" method="get">

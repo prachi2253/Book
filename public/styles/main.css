@@ -19,7 +19,7 @@
 .form{
     display: grid;
     font-size: 2rem;
-    margin-top: 2rem;
+    margin-top: 6rem;
     margin-bottom: 6rem;
 }
 .format{
@@ -126,7 +126,8 @@ h1, h2, h3 {
     margin: 0;
     padding: 0;
 }
-h1 { font-size: 4rem; }
+h1 { font-size: 4rem;
+text-align: center; }
 h2 { font-size: 3rem; }
 h3 {
     font-size: 1.5rem;
@@ -190,6 +191,49 @@ ul {
 }
 li::marker {
     font-size: 2rem;
+}
+/* Style for the label and description container */
+.label {
+    display: flex; /* Use flexbox to place the label and textarea side by side */
+    align-items: center; /* Vertically center align items */
+    gap: 1rem; /* Space between label and textarea */
+    font-size: 1.2rem; /* Slightly larger font for readability */
+    margin-bottom: 1rem; /* Add space between the label and description box */
+    font-weight: 600; /* Bold the label text */
+    color: #333; /* Dark text color for contrast */
+}
+
+/* Textarea Styling */
+textarea {
+    font-size: 1.1rem; /* Adjust text area font size */
+    padding: 1rem; /* Space inside the textarea */
+    border: 1px solid #ccc; /* Light border around the input field */
+    border-radius: 8px; /* Rounded corners for a cleaner look */
+    background-color: #f9f9f9; /* Light background */
+    width: 50%; /* Make textarea span the full width of the container */
+    min-height: 10rem; /* Set a minimum height for the description field */
+    resize: both; /* Allow resizing both horizontally and vertically */
+    overflow: hidden; /* Hide overflow to maintain shape */
+    transition: all 0.3s ease; /* Smooth transition for focus effect */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Remove resize handle if only vertical resize is wanted */
+textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Focus state for the textarea */
+textarea:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Soft green shadow on focus */
+}
+
+/* Optional: Style the placeholder text */
+textarea::placeholder {
+    
+    font-style: italic; /* Italicize the placeholder text */
 }
 
 /* MEDIA QUERIES */
