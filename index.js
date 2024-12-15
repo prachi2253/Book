@@ -77,24 +77,42 @@ async function fetchAndSaveCover(isbn) {
   }
 }
 // Function to fetch notes
-async function fetchNotes(id) {
+async function fetchNotes(bookId) {
   try {
-    const { data, error } = await supabase
-      .from('notes')
-      .select('id, book_id, title:books.title, author:books.author, image_path:books.image_path, date_read:books.date_read, note')
-      .eq('book_id', id)
+    // Query the books table and join notes
+    const result = await supabase
+      .from('books')
+      .select(`
+        id,
+        title,
+        author,
+        image_path,
+        date_read,
+        description,
+        review,
+        notes (
+          id,
+          book_id,
+          note
+        )
+      `)
+      .eq('id', bookId) // Filter by the book's ID
       .order('id', { ascending: false });
 
-    if (error) throw error;
-    return data;
+    if (result.error) throw result.error;
+
+    console.log(result.notes);
+    return result.data;
   } catch (error) {
-    console.log("Error fetching notes: ", error);
+    console.error('Error fetching notes:', error);
   }
 }
 
+
 // Function to format data (no changes needed here)
 function formatData(data) {
-  if (data[0]?.description || data[0]?.review || data[0]?.note) {
+  if (data[0].description || data[0].review || data[0].note) {
+    
     data.forEach((item) => {
       if (item.description) {
         item.description = item.description.replace(/<br>/g, "");
@@ -182,7 +200,7 @@ app.get('/notes/:bookId', async (req, res) => {
   try {
     const notes = await fetchNotes(bookId);
     const formattedNotes = await formatData(notes);
-    res.render('notes.ejs', { data: formattedNotes });
+    res.render('notes.ejs', { data: formattedNotes});
   } catch (error) {
     console.log(error);
   }
@@ -190,16 +208,20 @@ app.get('/notes/:bookId', async (req, res) => {
 
 // Add a new note for a book
 app.post('/notes/:bookId/add', async (req, res) => {
-  const bookId = req.params.bookId;
+  const bookId = req.params.bookId; // Get the bookId from URL parameter.
   const note = req.body.newNote;
+  // Pass the note string from HTML input to server and save to database using the bookId.
 
   try {
-    const { error } = await supabase.from('notes').insert([{ note, book_id: bookId }]);
-    if (error) throw error;
+    await supabase
+    .from('notes')  
+    .insert([
+      { note: note, book_id: bookId }  
+    ]);
 
-    res.redirect(`/notes/${bookId}`);
+      res.redirect(`/notes/${bookId}`); // res.redirect reloads the page by hitting the GET route /notes/:bookId.
   } catch (error) {
-    console.log(error);
+      console.log(error);
   }
 });
 
